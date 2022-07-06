@@ -31,7 +31,7 @@ NStreamData NStreamCom::parse()
 	return { *(uint16_t*)&buffer[NSC_BUFFER_ID_IDX], &buffer[NSC_BUFFER_DATA_IDX], buffer[NSC_BUFFER_SIZE_IDX] };
 }
 
-void NStreamCom::send(uint16_t id, uint8_t* data, uint8_t size)
+void NStreamCom::send(uint16_t id, void* data, uint8_t size)
 {
 	NSC_CLEAR_BUFFER();
 
