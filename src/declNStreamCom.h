@@ -44,7 +44,7 @@ public:
 	NStreamCom();
 	NStreamCom(Stream*);
 	NStreamData parse();
-	void send(uint16_t, uint8_t*, uint8_t);
+	void send(uint16_t, void*, uint8_t);
 	void send(NStreamData);
 #ifdef TypedByteArray_h
 	template <typename T, size_t size>
