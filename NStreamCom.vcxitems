@@ -14,7 +14,14 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)examples\keywords.txt" />
     <Text Include="$(MSBuildThisFileDirectory)library.properties" />
     <Text Include="$(MSBuildThisFileDirectory)src\NStreamCom.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)examples\ReadSend\ReadSend.ino" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\declNStreamCom.h" />
   </ItemGroup>
 </Project>

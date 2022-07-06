@@ -23,5 +23,18 @@
     <Text Include="$(MSBuildThisFileDirectory)library.properties">
       <Filter>Library metadata</Filter>
     </Text>
+    <Text Include="$(MSBuildThisFileDirectory)examples\keywords.txt">
+      <Filter>Library metadata</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)examples\ReadSend\ReadSend.ino">
+      <Filter>Examples</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\declNStreamCom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
