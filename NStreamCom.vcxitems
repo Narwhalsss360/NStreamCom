@@ -17,8 +17,4 @@
     <Text Include="$(MSBuildThisFileDirectory)library.properties" />
     <Text Include="$(MSBuildThisFileDirectory)src\NStreamCom.h" />
   </ItemGroup>
-  <ItemGroup>
-    <!-- <ClInclude Include="$(MSBuildThisFileDirectory)NStreamCom.h" /> -->
-    <ClInclude Include="$(MSBuildThisFileDirectory)declNStreamCom.h" />
-  </ItemGroup>
 </Project>
