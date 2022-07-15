@@ -26,9 +26,34 @@ NStreamData NStreamCom::parse()
 		delayMicroseconds(NSC_DELAY);
 	}
 
-	if ((inDataCount < NSC_PROTOCOL_OVERHEAD + 1) || (buffer[inDataCount - 2] != '\r' && buffer[inDataCount - 1] != '\n') || (inDataCount - buffer[1] != NSC_PROTOCOL_OVERHEAD) || buffer[0] != SOH) return {0, nullptr, 0};
+	if (inDataCount < NSC_PROTOCOL_OVERHEAD + 1)
+	{
+		lastError = INBUFFER_LENGTH_MISMATCH;
+		goto badData;
+	}
+
+	if (buffer[inDataCount - 2] != '\r' && buffer[inDataCount - 1] != '\n')
+	{
+
+		lastError = INBUFFER_BAD_TAIL;
+		goto badData;
+	}
+
+	if (inDataCount - buffer[1] != NSC_PROTOCOL_OVERHEAD)
+	{
+		lastError = INBUFFER_SIZE_MISMATCH;
+		goto badData;
+	}
+
+	if (buffer[0] != SOH)
+	{
+		lastError = INBUFFER_BAD_HEAD;
+		goto badData;
+	}
 	
 	return { *(uint16_t*)&buffer[NSC_BUFFER_ID_IDX], &buffer[NSC_BUFFER_DATA_IDX], buffer[NSC_BUFFER_SIZE_IDX] };
+badData:
+	return {inDataCount, buffer, 0};
 }
 
 void NStreamCom::send(uint16_t id, void* data, uint8_t size)
@@ -48,6 +73,11 @@ void NStreamCom::send(uint16_t id, void* data, uint8_t size)
 void NStreamCom::send(NStreamData data)
 {
 	send(data.id, data.data, data.size);
+}
+
+int NStreamCom::getLastError()
+{
+	return lastError;
 }
 
 template <typename T, size_t size>

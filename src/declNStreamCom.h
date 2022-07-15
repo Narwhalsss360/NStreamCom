@@ -11,8 +11,7 @@
 #define NSC_BUFFER_ID_IDX 2
 #define NSC_BUFFER_DATA_IDX 4
 
-
-#define INVLAID_DATA(d) ((d.data == nullptr || d.size == 0) ? 1 : 0)
+#define INVALID_DATA(d) ((d.size == 0) ? 1 : 0)
 
 #ifndef NSC_BUFFER_SIZE
 #define NSC_BUFFER_SIZE 36
@@ -29,6 +28,15 @@
 #define NSC_CLEAR_BUFFER() for (uint8_t i = 0; i < NSC_BUFFER_SIZE; i++) buffer[i] = 0
 #define SOH 1
 
+enum NStreamComErrors
+{
+	SUCCESS,
+	INBUFFER_LENGTH_MISMATCH,
+	INBUFFER_BAD_TAIL,
+	INBUFFER_SIZE_MISMATCH,
+	INBUFFER_BAD_HEAD
+};
+
 struct NStreamData
 {
 	uint16_t id;
@@ -40,12 +48,14 @@ class NStreamCom
 {
 	Stream* stream;
 	uint8_t buffer[NSC_BUFFER_SIZE];
+	int lastError;
 public:
 	NStreamCom();
 	NStreamCom(Stream*);
 	NStreamData parse();
 	void send(uint16_t, void*, uint8_t);
 	void send(NStreamData);
+	int getLastError();
 #ifdef TypedByteArray_h
 	template <typename T, size_t size>
 	void send(uint16_t, TypedByteArray<T, size>);
