@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nstreamcom"
+authors = [
+    {name = "Franklyn Vasquez", email = "franklynvasquez24@gmail.com"},
+]
+description = "NStreamCom protocol implementation for python"
+readme = "README.md"
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = []
+dynamic = ["version"]
+
+[tool.setuptools.packages.find]
+where = ["NStreamCom"]
