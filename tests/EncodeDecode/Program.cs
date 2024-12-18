@@ -29,6 +29,15 @@ namespace EncodeDecode
                 return 3;
             }
 
+            uint dataSize = (uint)STR.Length;
+            byte[] encodedSize = dataSize.EncodeSize();
+            uint decodedSize = encodedSize.DecodeSize();
+            if (decodedSize != dataSize)
+            {
+                Console.WriteLine("EncodeSize/DecodeSize error.");
+                return 4;
+            }
+
             return 0;
         }
 

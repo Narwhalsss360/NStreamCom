@@ -15,5 +15,22 @@
         public static uint AsDataSize(this uint transmissionSize) => transmissionSize * DATA_BITS / 8;
 
         public static int AsDataSize(this int transmissionSize) => (int)AsDataSize((uint)transmissionSize);
+
+        public static byte[] EncodeSize(this uint size)
+        {
+            byte[] encoded = BitConverter.GetBytes(size).Encode();
+            for (int i = 0; i < encoded.Length; i++)
+                encoded[i] |= (byte)(1 << (byte)DATA_BITS);
+            return encoded;
+        }
+
+        public static byte[] EncodeSize(this int size) => EncodeSize((uint)size);
+
+        public static uint DecodeSize(this byte[] encoded)
+        {
+            for (int i = 0; i < encoded.Length; i++)
+                encoded[i] &= (byte)~(1 << (byte)DATA_BITS);
+            return BitConverter.ToUInt32(encoded.Decode());
+        }
     }
 }
