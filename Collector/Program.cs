@@ -1,13 +1,13 @@
 ﻿using NStreamCom;
 using System.Text;
 
-namespace BufferedDecoder
+namespace Collector
 {
     public static class Program
     {
         private static int RunTest(bool first = false, NStreamCom.Collector? collector = null)
         {
-            collector = collector ?? new();
+            collector ??= new();
 
             const string STR = "Lorem ipsum dolor sit amet, consectetur adipiscing nunc";
             byte[] encoded = Encoding.UTF8.GetBytes(STR).EncodeWithSize();
@@ -21,12 +21,12 @@ namespace BufferedDecoder
             foreach (byte b in encoded)
             {
                 collector.Collect(b);
-                if (collector.State == Collector.States.MissingSize)
+                if (collector.State == NStreamCom.Collector.States.MissingSize)
                 {
                     Console.WriteLine("Collector error state MissingSize");
                     return 2;
                 }
-                else if (collector.State == Collector.States.MissingData)
+                else if (collector.State == NStreamCom.Collector.States.MissingData)
                 {
                     Console.WriteLine("Collector error state MissingData");
                     return 2;

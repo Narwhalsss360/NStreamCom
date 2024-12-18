@@ -13,17 +13,11 @@ namespace NStreamCom
             WaitingData
         }
 
-        public class StateChangedEventArgs : EventArgs
+        public class StateChangedEventArgs(States previousState, States newState) : EventArgs
         {
-            public readonly States PreviousState;
+            public readonly States PreviousState = previousState;
 
-            public readonly States NewState;
-
-            public StateChangedEventArgs(States previousState, States newState)
-            {
-                PreviousState = previousState;
-                NewState = newState;
-            }
+            public readonly States NewState = newState;
         }
 
         public delegate void StateChangedEventHandler(object? sender, StateChangedEventArgs e);
@@ -56,7 +50,7 @@ namespace NStreamCom
 
         public event StateChangedEventHandler? StateChanged;
 
-        private BufferedDecoder _decoder = new();
+        private readonly BufferedDecoder _decoder = new();
 
         private uint _nextSize = 0;
 

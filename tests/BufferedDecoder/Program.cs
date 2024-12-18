@@ -7,7 +7,7 @@ namespace BufferedDecoder
     {
         private static int RunTest(bool first = false, NStreamCom.BufferedDecoder? decoder = null)
         {
-            decoder = decoder ?? new();
+            decoder ??= new();
 
             const string STR = "Lorem ipsum dolor sit amet, consectetur adipiscing nunc";
             byte[] encoded = Encoding.UTF8.GetBytes(STR).Encode();

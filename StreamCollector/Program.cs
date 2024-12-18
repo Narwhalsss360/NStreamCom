@@ -1,13 +1,13 @@
 ﻿using NStreamCom;
 using System.Text;
 
-namespace BufferedDecoder
+namespace StreamCollector
 {
     public static class Program
     {
         private static int RunTest(bool first = false, NStreamCom.StreamCollector? collectorStream = null)
         {
-            collectorStream = collectorStream ?? new();
+            collectorStream ??= new();
 
             const string STR = "Lorem ipsum dolor sit amet, consectetur adipiscing nunc";
             byte[] encoded = Encoding.UTF8.GetBytes(STR).EncodeWithSize();

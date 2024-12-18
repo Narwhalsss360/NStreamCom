@@ -6,9 +6,9 @@
 
         public int DecodedIndex { get; private set; } = 0;
 
-        public byte[] Bytes { get => _bytes.ToArray(); }
+        public byte[] Bytes { get => [.. _bytes]; }
 
-        private List<byte> _bytes = new();
+        private readonly List<byte> _bytes = [];
 
         private byte _rightShift = 0;
 

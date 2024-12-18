@@ -1,6 +1,6 @@
 ﻿namespace NStreamCom
 {
-    public class StreamCollector : Stream
+    public class StreamCollector(Collector? collector = null) : Stream
     {
         public override bool CanRead => false;
 
@@ -12,14 +12,9 @@
 
         public override long Position { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
 
-        public Collector Collector { get; set; }
+        public Collector Collector { get; set; } = collector ?? new();
 
         public bool BreakOnCollectorErrorState { get; set; } = true;
-
-        public StreamCollector(Collector? collector = null)
-        {
-            Collector = collector ?? new();
-        }
 
         public override void Flush()
         { }
