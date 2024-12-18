@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "repo", "repo", "{411EF1C5-EF61-4ED7-9E44-E63DFF0FE5A2}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9D04F0BF-2359-4805-A372-DA4BF0A0BD25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NStreamCom", "src\NStreamCom\NStreamCom.csproj", "{31682D77-8EC9-45D0-8D2D-83699FEF9FF0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31682D77-8EC9-45D0-8D2D-83699FEF9FF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31682D77-8EC9-45D0-8D2D-83699FEF9FF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31682D77-8EC9-45D0-8D2D-83699FEF9FF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31682D77-8EC9-45D0-8D2D-83699FEF9FF0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{31682D77-8EC9-45D0-8D2D-83699FEF9FF0} = {9D04F0BF-2359-4805-A372-DA4BF0A0BD25}
+	EndGlobalSection
+EndGlobal
