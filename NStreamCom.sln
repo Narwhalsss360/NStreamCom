@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncodeDecode", "tests\Encod
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{88FDE96E-0F93-4DF9-9CE7-66152F36A5CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BufferedDecoder", "tests\BufferedDecoder\BufferedDecoder.csproj", "{3A41B8B4-00B3-40F3-9C29-9B2A85C278E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{B60BC091-BD60-491F-81DC-A4684CB231C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B60BC091-BD60-491F-81DC-A4684CB231C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B60BC091-BD60-491F-81DC-A4684CB231C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A41B8B4-00B3-40F3-9C29-9B2A85C278E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A41B8B4-00B3-40F3-9C29-9B2A85C278E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A41B8B4-00B3-40F3-9C29-9B2A85C278E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A41B8B4-00B3-40F3-9C29-9B2A85C278E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,5 +45,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{31682D77-8EC9-45D0-8D2D-83699FEF9FF0} = {9D04F0BF-2359-4805-A372-DA4BF0A0BD25}
 		{B60BC091-BD60-491F-81DC-A4684CB231C6} = {88FDE96E-0F93-4DF9-9CE7-66152F36A5CE}
+		{3A41B8B4-00B3-40F3-9C29-9B2A85C278E7} = {88FDE96E-0F93-4DF9-9CE7-66152F36A5CE}
 	EndGlobalSection
 EndGlobal
