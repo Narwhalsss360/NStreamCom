@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffered", "examples\Buffer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamCollected", "examples\StreamCollected\StreamCollected.csproj", "{DC9C7C0C-BD51-4FE7-B45D-2964D3675DA7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PipeMessager", "examples\PipeMessager\PipeMessager.csproj", "{7F56DEEB-71A3-43EC-9D8D-18A4104C5463}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +78,10 @@ Global
 		{DC9C7C0C-BD51-4FE7-B45D-2964D3675DA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC9C7C0C-BD51-4FE7-B45D-2964D3675DA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC9C7C0C-BD51-4FE7-B45D-2964D3675DA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F56DEEB-71A3-43EC-9D8D-18A4104C5463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F56DEEB-71A3-43EC-9D8D-18A4104C5463}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F56DEEB-71A3-43EC-9D8D-18A4104C5463}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F56DEEB-71A3-43EC-9D8D-18A4104C5463}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,5 +96,6 @@ Global
 		{22266537-C594-45BE-B1DF-2BD43A73DD05} = {89794FC3-F050-4AD0-AACE-F540C0B8FCE3}
 		{F3F2F2F7-BEDB-42AB-90D1-614DBC0A08BA} = {89794FC3-F050-4AD0-AACE-F540C0B8FCE3}
 		{DC9C7C0C-BD51-4FE7-B45D-2964D3675DA7} = {89794FC3-F050-4AD0-AACE-F540C0B8FCE3}
+		{7F56DEEB-71A3-43EC-9D8D-18A4104C5463} = {89794FC3-F050-4AD0-AACE-F540C0B8FCE3}
 	EndGlobalSection
 EndGlobal
