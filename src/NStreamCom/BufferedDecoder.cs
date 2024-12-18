@@ -6,7 +6,10 @@
 
         public int DecodedIndex { get; private set; } = 0;
 
-        public byte[] Bytes { get => [.. _bytes]; }
+        public byte[] Bytes
+        {
+            get => _bytes.Take(DecodedIndex - (DecodedIndex % Sizing.DATA_BITS == 0 ? 0 : 1)).ToArray();
+        }
 
         private readonly List<byte> _bytes = [];
 
