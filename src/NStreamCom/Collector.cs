@@ -1,4 +1,6 @@
-﻿namespace NStreamCom
+﻿using static NStreamCom.Collector;
+
+namespace NStreamCom
 {
     public class Collector
     {
@@ -132,5 +134,10 @@
 
             State = States.Collected;
         }
+    }
+
+    public static class StatesExtensions
+    {
+        public static bool ErrorState(this States state) => state == States.MissingSize || state == States.MissingData;
     }
 }
