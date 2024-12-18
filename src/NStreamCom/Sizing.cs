@@ -14,6 +14,10 @@
 
         public static int AsTransmissionSize(this int dataSize) => (int)AsTransmissionSize((uint)dataSize);
 
+        public static uint AsCollectedSize(this uint dataSize) => AsTransmissionSize(dataSize) + ENCODED_NSIZE_SIZE;
+
+        public static uint AsCollectedSize(this int dataSize) => AsCollectedSize((uint)dataSize);
+
         public static uint AsDataSize(this uint transmissionSize) => transmissionSize * DATA_BITS / 8;
 
         public static int AsDataSize(this int transmissionSize) => (int)AsDataSize((uint)transmissionSize);
