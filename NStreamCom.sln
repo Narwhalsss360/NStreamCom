@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BufferedDecoder", "tests\Bu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collector", "Collector\Collector.csproj", "{6FC33346-54A6-4AB3-8DB4-46D0C25AC15E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamCollector", "StreamCollector\StreamCollector.csproj", "{E2B935BD-6ADD-4158-A080-F520662D1B9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{6FC33346-54A6-4AB3-8DB4-46D0C25AC15E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FC33346-54A6-4AB3-8DB4-46D0C25AC15E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FC33346-54A6-4AB3-8DB4-46D0C25AC15E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2B935BD-6ADD-4158-A080-F520662D1B9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2B935BD-6ADD-4158-A080-F520662D1B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2B935BD-6ADD-4158-A080-F520662D1B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2B935BD-6ADD-4158-A080-F520662D1B9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,5 +59,6 @@ Global
 		{B60BC091-BD60-491F-81DC-A4684CB231C6} = {88FDE96E-0F93-4DF9-9CE7-66152F36A5CE}
 		{3A41B8B4-00B3-40F3-9C29-9B2A85C278E7} = {88FDE96E-0F93-4DF9-9CE7-66152F36A5CE}
 		{6FC33346-54A6-4AB3-8DB4-46D0C25AC15E} = {88FDE96E-0F93-4DF9-9CE7-66152F36A5CE}
+		{E2B935BD-6ADD-4158-A080-F520662D1B9C} = {88FDE96E-0F93-4DF9-9CE7-66152F36A5CE}
 	EndGlobalSection
 EndGlobal
