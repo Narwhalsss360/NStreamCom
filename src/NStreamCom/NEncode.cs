@@ -33,6 +33,8 @@
             return encoded;
         }
 
+        public static byte[] EncodeWithSize(this byte[] data) => [..data.Length.EncodeSize(), ..data.Encode()];
+
         public static byte[] Decode(this byte[] encoded)
         {
             byte[] data = new byte[encoded.Length.AsDataSize()];
