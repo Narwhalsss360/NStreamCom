@@ -8,6 +8,8 @@
 
         public static readonly uint MAX_DATA_SIZE = uint.MaxValue * DATA_BITS / 8;
 
+        public static readonly uint ENCODED_NSIZE_SIZE = ((sizeof(uint) * 8) + DATA_BITS - 1) / DATA_BITS;
+
         public static uint AsTransmissionSize(this uint dataSize) => ((dataSize * 8) + DATA_BITS - 1) / DATA_BITS;
 
         public static int AsTransmissionSize(this int dataSize) => (int)AsTransmissionSize((uint)dataSize);
