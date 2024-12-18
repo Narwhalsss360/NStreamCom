@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nstreamcom"
+authors = [
+    { name = "Franklyn Vasquez", email = "franklynvasquez24@gmail.com" }
+]
+description = "Use this library to encode data for transmission, decode data once received or use `collector` to collect bytes into a buffer, therefore decoding and buffering that incoming data."
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { file = "LICENSE" }
+keywords = ["stream", "communications"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+version = "0.0.0"
+
+[project.urls]
+Repository = "https://github.com/Narwhalsss360/NStreamCom"

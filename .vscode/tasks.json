@@ -1,0 +1,51 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Install module as editable",
+            "type": "shell",
+            "command": "./venv/bin/python",
+            "windows": { "command": ".venv/Scripts/python.exe" },
+            "args": [
+                "-m",
+                "pip",
+                "install",
+                "-e",
+                "."
+            ],
+            "options": {
+                "statusbar": {
+                    "icon": {
+                        "id": "desktop-download"
+                    },
+                    "running": {
+                        "backgroundColor": "statusBarItem.warningBackground",
+                        "icon": {
+                            "id": "ellipsis"
+                        }
+                    }
+                }
+            },
+            "dependsOn": "Ensure .venv"
+        },
+        {
+            "label": "Ensure .venv",
+            "type": "shell",
+            "options": {
+                "statusbar": {
+                    "icon": {
+                        "id": "folder-library"
+                    }
+                }
+            },
+            "windows": {
+                "command": "if ( ! (Test-Path -Path .venv ) ) { python -m venv .venv }"
+            },
+            "linux": {
+                "command": "if [ ! -d .venv ]; then python -m venv .venv; fi"
+            }
+        }
+    ]
+}
