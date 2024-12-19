@@ -24,7 +24,7 @@ namespace NStreamCom
 
         public States State { get; private set; } = States.WaitingSize;
 
-        public bool SizeReady { get => State == States.WaitingData; }
+        public bool SizeReady { get => State == States.WaitingData || State == States.Collected; }
 
         public bool DataReady { get => State == States.Collected; }
 
