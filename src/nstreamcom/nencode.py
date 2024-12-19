@@ -22,7 +22,7 @@ def encode(data: bytes | bytearray | list[int]) -> bytearray:
                 encoded[i] |= as_byte(data[ratio] << left_shift)
 
         encoded[i] &= as_byte(~(0xFF << DATA_BITS))
-        
+
     return encoded
 
 
@@ -59,4 +59,3 @@ def decode_size(encoded_size: bytearray | bytes | list[int], byteorder: Optional
     for byte in encoded_size:
         zeroed_out.append(byte & ~(1 << 7))
     return int.from_bytes(decode(zeroed_out), byteorder or 'little')
-

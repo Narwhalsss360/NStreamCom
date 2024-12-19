@@ -18,4 +18,3 @@ def as_collected_size(data_size: int) -> int:
 
 def as_data_size(encoded_size: int) -> int:
     return encoded_size * DATA_BITS // 8
-

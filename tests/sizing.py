@@ -8,7 +8,7 @@ def main() -> None:
         4 * 8,
         9 * DATA_BITS,
     ]
-    
+
     for size in sizes:
         assert decode_size(encode_size(size)) == size, f'{size=}'
 
@@ -17,4 +17,3 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
-
