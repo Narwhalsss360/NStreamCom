@@ -1,0 +1,14 @@
+name: "Python: Test All"
+
+on:
+    push:
+        branches:
+            - "python"
+
+jobs:
+    testall:
+        runs-on: ubuntu-latest
+        name: Test all
+        steps:
+            - uses: actions/checkout@v3
+            - run: source testall.sh

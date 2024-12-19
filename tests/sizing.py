@@ -12,7 +12,7 @@ def main() -> None:
     for size in sizes:
         assert decode_size(encode_size(size)) == size, f'{size=}'
 
-    print('Success')
+    print('Success!')
 
 
 if __name__ == '__main__':
