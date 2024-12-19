@@ -1,5 +1,5 @@
 from typing import Optional
-from .sizing import DATA_BITS, as_transmission_size, as_data_size, ENCODED_NSIZE_SIZE
+from .sizing import DATA_BITS, as_transmission_size, as_data_size, NSIZE_SIZE, ENCODED_NSIZE_SIZE
 from .bits import as_byte
 
 
@@ -48,9 +48,15 @@ def decode(encoded: bytes | bytearray | list[int]) -> bytearray:
 
 
 def encode_size(data_size: int, byteorder: Optional[str] = None) -> bytearray:
-    encoded: bytearray = encode(data_size.to_bytes(ENCODED_NSIZE_SIZE, byteorder or 'little'))
+    encoded: bytearray = encode(data_size.to_bytes(NSIZE_SIZE, byteorder or 'little'))
     for i in range(ENCODED_NSIZE_SIZE):
         encoded[i] |= 1 << 7
+    return encoded
+
+
+def encode_with_size(data: bytes | bytearray | list[int], size_byteorder: Optional[str] = None) -> bytearray:
+    encoded: bytearray = encode_size(len(data), size_byteorder)
+    encoded.extend(encode(data))
     return encoded
 
 
