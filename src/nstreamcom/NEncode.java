@@ -20,13 +20,13 @@ public class NEncode {
             }
             else
             {
-                encoded[i] = (byte)(data[ratio] >> previousStuffed);
+                encoded[i] = (byte)((data[ratio] >>> previousStuffed) & 0xFF >>> previousStuffed);
                 ratio++;
                 if (ratio < data.length)
                     encoded[i] |= (byte)((data[ratio] << leftShift));
             }
 
-            encoded[i] &= (byte)~(0xFF << (byte)NSize.DATA_BITS);
+            encoded[i] &= (byte)~(0xFF << NSize.DATA_BITS);
         }
 
         return encoded;
@@ -46,11 +46,11 @@ public class NEncode {
             if (i != 0 && rightShift == 0)
                 ratio++;
 
-            data[i] = (byte)((encoded[ratio] & (byte)~(0xFF << (byte)NSize.DATA_BITS)) >> rightShift);
+            data[i] = (byte)((encoded[ratio] & ~(0xFF << NSize.DATA_BITS)) >>> rightShift);
 
             ratio++;
             if (ratio < encoded.length)
-                data[i] |= (byte)((encoded[ratio] & (byte)~(0xFF << (byte)NSize.DATA_BITS)) << leftNext);
+                data[i] |= (byte)((encoded[ratio] & ~(0xFF << NSize.DATA_BITS)) << leftNext);
         }
 
         return data;
