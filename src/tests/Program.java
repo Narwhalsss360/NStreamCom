@@ -1,6 +1,7 @@
 package tests;
 import java.nio.charset.StandardCharsets;
 import nstreamcom.NEncode;
+import nstreamcom.NSize;
 
 public class Program
 {
@@ -21,6 +22,19 @@ public class Program
                 String decoded = new String(decodedBytes, StandardCharsets.UTF_8);
 
                 return str.equals(decoded);
+            }
+        },
+        new Test() {
+            @Override
+            public String name() {
+                return "Encode-Decode Size";
+            }
+
+            @Override
+            public boolean run() {
+                long size = 0xBEEF;
+                long decoded = NSize.decodeSize(NSize.encodeSize(size));
+                return size == decoded;
             }
         }
     };

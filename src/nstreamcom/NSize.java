@@ -1,5 +1,8 @@
 package nstreamcom;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
 public class NSize {
     public static final long NSIZE_SIZE = 4;
 
@@ -35,5 +38,38 @@ public class NSize {
 
     public static int asCollectedSize(int dataSize) {
         return (int)asCollectedSize((long)dataSize);
+    }
+
+    public static byte[] encodeSize(long dataSize) {
+        byte[] dataSizeBytes = new byte[(int)NSIZE_SIZE];
+        ByteBuffer.allocate(8)
+            .order(ByteOrder.LITTLE_ENDIAN)
+            .putLong(dataSize)
+            .position(0)
+            .get(dataSizeBytes, 0, (int)NSIZE_SIZE);
+
+        byte[] encodedBytes = NEncode.encode(dataSizeBytes);
+        for (int i = 0; i < encodedBytes.length; i++) {
+            encodedBytes[i] |= (byte)(1 << DATA_BITS);
+        }
+
+        return encodedBytes;
+    }
+
+    public byte[] encodeSize(int dataSize) {
+        return encodeSize((long)dataSize);
+    }
+
+    public static long decodeSize(byte[] encodedSize) {
+        for (int i = 0; i < encodedSize.length; i++) {
+            encodedSize[i] &= (byte)~(1 << DATA_BITS);
+        }
+        ByteBuffer sizeBuffer = ByteBuffer
+            .allocate(8)
+            .order(ByteOrder.LITTLE_ENDIAN)
+            .put(NEncode.decode(encodedSize))
+            .put(new byte[] { 0, 0, 0, 0 });
+        sizeBuffer.position(0);
+        return sizeBuffer.getLong();
     }
 }
