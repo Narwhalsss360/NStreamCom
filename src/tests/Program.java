@@ -1,6 +1,5 @@
 package tests;
 import java.nio.charset.StandardCharsets;
-import nstreamcom.EncodeException;
 import nstreamcom.NEncode;
 
 public class Program
@@ -16,16 +15,9 @@ public class Program
             @Override
             public boolean run() {
                 String str = "Lorem ipsum.";
-                byte[] encodedBytes;
-                try {
-                    encodedBytes = NEncode.encode(str.getBytes());
-                } catch (EncodeException ex) {
-                    System.out.println("Encode exception occurred.");
-                    return false;
-                }
 
+                byte[] encodedBytes = NEncode.encode(str.getBytes());
                 byte[] decodedBytes = NEncode.decode(encodedBytes);
-
                 String decoded = new String(decodedBytes, StandardCharsets.UTF_8);
 
                 return str.equals(decoded);

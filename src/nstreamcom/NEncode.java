@@ -1,9 +1,9 @@
 package nstreamcom;
 
 public class NEncode {
-    public static byte[] encode(byte[] data) throws EncodeException {
+    public static byte[] encode(byte[] data) {
         if (data.length > NSize.MAX_DATA_SIZE) {
-            throw new EncodeException("data is too large.", null);
+            return new byte[0];
         }
 
         byte[] encoded = new byte[NSize.asTransmissonSize(data.length)];
