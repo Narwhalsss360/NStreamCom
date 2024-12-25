@@ -56,7 +56,7 @@ public class NSize {
         return encodedBytes;
     }
 
-    public byte[] encodeSize(int dataSize) {
+    public static byte[] encodeSize(int dataSize) {
         return encodeSize((long)dataSize);
     }
 

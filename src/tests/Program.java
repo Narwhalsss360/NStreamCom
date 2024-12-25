@@ -1,6 +1,7 @@
 package tests;
 import java.nio.charset.StandardCharsets;
 import nstreamcom.BufferedDecoder;
+import nstreamcom.Collector;
 import nstreamcom.NEncode;
 import nstreamcom.NSize;
 
@@ -54,6 +55,37 @@ public class Program
                     decoder.next(encodedBytes[i], i == encodedBytes.length - 1);
                 }
                 String decoded = new String(decoder.bytes(), StandardCharsets.UTF_8);
+
+                return str.equals(decoded);
+            }
+        },
+        new Test() {
+            @Override
+            public String name() {
+                return "Collector";
+            }
+
+            @Override
+            public boolean run() {
+                String str = "Lorem ipsum.";
+
+                byte[] encodedWithSize = NEncode.encodeWithSize(str.getBytes());
+                Collector collector = new Collector();
+
+                for (byte b : encodedWithSize) {
+                    Collector.States state = collector.collect(b);
+                    if (state.error()) {
+                        System.out.println("Error state: " + state.toString());
+                        return false;
+                    }
+                }
+
+                if (collector.state() != Collector.States.COLLECTED) {
+                    System.out.println("Did not collect.");
+                    return false;
+                }
+
+                String decoded = new String(collector.bytes(), StandardCharsets.UTF_8);
 
                 return str.equals(decoded);
             }

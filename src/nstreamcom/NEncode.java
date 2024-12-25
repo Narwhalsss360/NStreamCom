@@ -32,6 +32,22 @@ public class NEncode {
         return encoded;
     }
 
+    public static byte[] encodeWithSize(byte[] data) {
+        byte[] encodedWithSize = new byte[NSize.asCollectedSize(data.length)];
+        byte[] encodedSize = NSize.encodeSize(data.length);
+        byte[] encodedData = encode(data);
+
+        for (int i = 0; i < NSize.ENCODED_NSIZE_SIZE; i++) {
+            encodedWithSize[i] = encodedSize[i];
+        }
+
+        for (int i = 0; i < encodedData.length; i++) {
+            encodedWithSize[i + (int)NSize.ENCODED_NSIZE_SIZE] = encodedData[i];
+        }
+
+        return encodedWithSize;
+    }
+
     public static byte[] decode(byte[] encoded) {
         byte[] data = new byte[NSize.asDataSize(encoded.length)];
 
