@@ -1,0 +1,12 @@
+actions:
+  - action: delete
+    path: Makefile
+  - action: delete
+    path: .gitignore
+  - action: move
+    source: src/nstreamcom/*
+    destination: .
+  - action: delete
+    path: src
+  - action: delete
+    path: releasify.yaml
