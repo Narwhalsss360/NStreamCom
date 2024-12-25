@@ -60,16 +60,20 @@ public class NSize {
         return encodeSize((long)dataSize);
     }
 
+    public static long littleUInt32toLong(byte[] bytes) {
+        return ByteBuffer
+            .allocate(8)
+            .order(ByteOrder.LITTLE_ENDIAN)
+            .put(bytes)
+            .put(new byte[] { 0, 0, 0, 0 })
+            .position(0)
+            .getLong();
+    }
+
     public static long decodeSize(byte[] encodedSize) {
         for (int i = 0; i < encodedSize.length; i++) {
             encodedSize[i] &= (byte)~(1 << DATA_BITS);
         }
-        ByteBuffer sizeBuffer = ByteBuffer
-            .allocate(8)
-            .order(ByteOrder.LITTLE_ENDIAN)
-            .put(NEncode.decode(encodedSize))
-            .put(new byte[] { 0, 0, 0, 0 });
-        sizeBuffer.position(0);
-        return sizeBuffer.getLong();
+        return littleUInt32toLong(NEncode.decode(encodedSize));
     }
 }
