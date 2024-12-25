@@ -62,6 +62,7 @@ public class Program
 
     public static void main(String[] args) {
         for (Test test : TESTS) {
+            System.out.println("Testing: " + test.name());
             if (!test.run()) {
                 System.out.println("Failure: " + test.name());
                 System.exit(1);
