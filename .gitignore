@@ -707,3 +707,12 @@ dkms.conf
 # ignorer === TEMPLATE C++ END ===
 
 # ignorer 2024-12-15T21:44:12.343846 === Generated source ignore file. ===
+# ignorer 2025-06-23T17:45:10.945096 === Generated source ignore file. ===
+
+# ignorer === TEMPLATE Zig START ===
+.zig-cache/
+zig-out/
+*.o
+# ignorer === TEMPLATE Zig END ===
+
+# ignorer 2025-06-23T17:45:10.945131 === Generated source ignore file. ===
