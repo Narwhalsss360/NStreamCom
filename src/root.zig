@@ -3,11 +3,14 @@ const sizing = @import("sizing.zig");
 const nencode = @import("nencode.zig");
 
 test "sizing" {
-    try std.testing.expect(sizing.asTransmissionSize(0) == 0);
-    try std.testing.expect(sizing.asTransmissionSize(1) == 2);
-    try std.testing.expect(sizing.asTransmissionSize(2) == 3);
-    try std.testing.expect(sizing.asTransmissionSize(8) == 10);
-    try std.testing.expect(sizing.asTransmissionSize(10) == 12);
+    const data_sizes = [_]u8 {0, 1, 2, 8, 10, 11};
+    const expected_encoded_sizes = [_]u8{0, 2, 3, 10, 12, 13};
+    try std.testing.expect(data_sizes.len == expected_encoded_sizes.len);
+
+    for (data_sizes, expected_encoded_sizes) |data_size, expected_encoded_size| {
+        try std.testing.expect(sizing.asTransmissionSize(data_size) == expected_encoded_size);
+        try std.testing.expect(sizing.asDataSize(expected_encoded_size) == data_size);
+    }
 }
 
 test "nencode" {
