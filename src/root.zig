@@ -1,6 +1,7 @@
 const std = @import("std");
 const sizing = @import("sizing.zig");
 const nencode = @import("nencode.zig");
+const buffered_decoder = @import("buffered_decoder.zig");
 
 test "sizing" {
     const data_sizes = [_]u8 {0, 1, 2, 8, 10, 11};
@@ -91,6 +92,89 @@ test "sizing encoding" {
         try std.io.getStdOut().writer().print("{d}, {d}\n>{d}\n", .{data_size, expected_encoded_size, decoded_size});
         try std.testing.expect(encoded_size == expected_encoded_size);
         try std.testing.expect(decoded_size == data_size);
+    }
+}
+
+test "decoder" {
+    {
+        const data = [_]u8 {};
+        var encoded: [sizing.asTransmissionSize(data.len)]u8 = undefined;
+        const expected_encoded = [_]u8 {};
+        var decoded: [data.len]u8 = undefined;
+
+        nencode.encode(&data, &encoded);
+        var decoder = buffered_decoder.Decoder { .buffer = &decoded };
+        for (encoded, 0..) |byte, i| {
+            decoder.next(byte, i == encoded.len - 1) catch try std.testing.expect(false);
+        }
+
+        try printSlice(u8, "{d}", &data);
+        try printSlice(u8, "{d}", &encoded);
+        _ = try std.io.getStdOut().write("\n");
+        try printSlice(u8, "{d}", &decoded);
+        _ = try std.io.getStdOut().write("\n");
+        try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
+        try std.testing.expect(std.mem.eql(u8, &decoded, &data));
+    }
+    {
+        const data = [_]u8 {1, 2, 3};
+        var encoded: [sizing.asTransmissionSize(data.len)]u8 = undefined;
+        const expected_encoded = [_]u8 {1, 4, 12, 0};
+        var decoded: [data.len]u8 = undefined;
+
+        nencode.encode(&data, &encoded);
+        var decoder = buffered_decoder.Decoder { .buffer = &decoded };
+        for (encoded, 0..) |byte, i| {
+            decoder.next(byte, i == encoded.len - 1) catch try std.testing.expect(false);
+        }
+
+        try printSlice(u8, "{d}", &data);
+        try printSlice(u8, "{d}", &encoded);
+        _ = try std.io.getStdOut().write("\n");
+        try printSlice(u8, "{d}", &decoded);
+        _ = try std.io.getStdOut().write("\n");
+        try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
+        try std.testing.expect(std.mem.eql(u8, &decoded, &data));
+    }
+    {
+        const data = [_]u8 {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        var encoded: [sizing.asTransmissionSize(data.len)]u8 = undefined;
+        const expected_encoded = [_]u8 {1, 4, 12, 32, 80, 64, 65, 3, 8, 18, 40, 0};
+        var decoded: [data.len]u8 = undefined;
+
+        nencode.encode(&data, &encoded);
+        var decoder = buffered_decoder.Decoder { .buffer = &decoded };
+        for (encoded, 0..) |byte, i| {
+            decoder.next(byte, i == encoded.len - 1) catch try std.testing.expect(false);
+        }
+
+        try printSlice(u8, "{d}", &data);
+        try printSlice(u8, "{d}", &encoded);
+        _ = try std.io.getStdOut().write("\n");
+        try printSlice(u8, "{d}", &decoded);
+        _ = try std.io.getStdOut().write("\n");
+        try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
+        try std.testing.expect(std.mem.eql(u8, &decoded, &data));
+    }
+    {
+        const data = [_]u8 {200, 101, 155, 80, 23, 95, 33, 57, 59};
+        var encoded: [sizing.asTransmissionSize(data.len)]u8 = undefined;
+        const expected_encoded = [_]u8 {72, 75, 109, 4, 117, 98, 87, 16, 57, 118, 0};
+        var decoded: [data.len]u8 = undefined;
+
+        nencode.encode(&data, &encoded);
+        var decoder = buffered_decoder.Decoder { .buffer = &decoded };
+        for (encoded, 0..) |byte, i| {
+            decoder.next(byte, i == encoded.len - 1) catch try std.testing.expect(false);
+        }
+
+        try printSlice(u8, "{d}", &data);
+        try printSlice(u8, "{d}", &encoded);
+        _ = try std.io.getStdOut().write("\n");
+        try printSlice(u8, "{d}", &decoded);
+        _ = try std.io.getStdOut().write("\n");
+        try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
+        try std.testing.expect(std.mem.eql(u8, &decoded, &data));
     }
 }
 
