@@ -7,6 +7,8 @@ pub const DecoderError = error {
     InvalidDecoderState
 };
 
+pub const Error = DecoderError;
+
 pub const Decoder = struct {
     buffer: ?[]u8 = null,
     position: u32 = 0,
@@ -18,24 +20,24 @@ pub const Decoder = struct {
 
     pub fn reset(self: *Decoder) void {
         self.position = 0;
-        self.rigt_shift = 0;
+        self.right_shift = 0;
     }
 
-    pub fn next(self: *Decoder, byte: u8, is_last: bool) DecoderError!void {
+    pub fn next(self: *Decoder, byte: u8, is_last: bool) Error!void {
         if (self.buffer == null) {
-            return DecoderError.NoBuffer;
+            return Error.NoBuffer;
         }
 
         if (!is_last) {
             if (self.position == self.buffer.?.len) {
-                return DecoderError.BufferFull;
+                return Error.BufferFull;
             }
             self.buffer.?[self.position] = byte >> self.right_shift;
         }
 
         if (self.right_shift != 0) {
             if (self.position == 0) {
-                return DecoderError.InvalidDecoderState;
+                return Error.InvalidDecoderState;
             }
 
             self.buffer.?[self.position - 1] |= byte << @intCast((8 - @as(u4, self.right_shift)));
