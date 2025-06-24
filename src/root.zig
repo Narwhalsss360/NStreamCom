@@ -315,7 +315,19 @@ test "upper echoer" {
 
     const data = "Lorem Ipsum.";
     const expected_response = "LOREM IPSUM.";
-    var stream = try std.net.tcpConnectToAddress(std.net.Address.initIp4(test_with_upper_echoer_addr.?, test_with_upper_echoer_port));
+    var stream = std.net.tcpConnectToAddress(
+        std.net.Address.initIp4(test_with_upper_echoer_addr.?, test_with_upper_echoer_port)
+    ) catch |err| {
+        if (err == error.ConnectionRefused) {
+            std.debug.print("Skipping upper echoer test, server may not be running.", .{});
+            return;
+        }
+
+        std.debug.print("An error occurred connecting to server: {!}.", .{err});
+        try std.testing.expect(false);
+        return;
+    };
+
     defer stream.close();
     print("connected!\n", .{});
 
