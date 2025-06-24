@@ -78,7 +78,20 @@ test "nencode" {
         try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
         try std.testing.expect(std.mem.eql(u8, &decoded, &data));
     }
+}
 
+test "sizing encoding" {
+    const data_sizes = [_]sizing.nsize_int {0, 1, 2, 8, 9, 128, 129};
+    const expected_encoded_sizes = [_]sizing.encoded_nsize_int {551911719040, 551911719041, 551911719042, 551911719048, 551911719049, 551911719296, 551911719297};
+    for (data_sizes, expected_encoded_sizes) |data_size, expected_encoded_size| {
+        //try printSlice(u8, "{d}", std.mem.asBytes(&nencode.encodeSize(data_size)));
+        //_ = try std.io.getStdOut().write("\n");
+        const encoded_size = nencode.encodeSize(data_size);
+        const decoded_size = nencode.decodeSize(expected_encoded_size);
+        try std.io.getStdOut().writer().print("{d}, {d}\n>{d}\n", .{data_size, expected_encoded_size, decoded_size});
+        try std.testing.expect(encoded_size == expected_encoded_size);
+        try std.testing.expect(decoded_size == data_size);
+    }
 }
 
 pub fn printSlice(comptime T: type, comptime fmt: []const u8, slice: []const T) !void {

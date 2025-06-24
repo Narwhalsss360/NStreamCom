@@ -1,3 +1,10 @@
+const asBytes = @import("std").mem.asBytes;
+const sizing = @import("sizing.zig");
+const nsize_int = sizing.nsize_int;
+const encoded_nsize_int = sizing.encoded_nsize_int;
+const nsize_int_byte_count = sizing.nsize_int_byte_count;
+const encoded_nsize_int_byte_count = sizing.encoded_nsize_int_byte_count;
+
 pub fn encode(data: []const u8, encoded: []u8) void {
     var di: u32 = 0;
     var ei: u32 = 0;
@@ -47,3 +54,25 @@ pub fn decode(encoded: []const u8, decoded: []u8) void {
         }
     }
 }
+
+pub fn encodeSize(size: nsize_int) encoded_nsize_int {
+    var encoded_size: encoded_nsize_int = undefined;
+    var encoded_size_as_bytes: []u8 = asBytes(&encoded_size);
+    encode(asBytes(&size)[0..nsize_int_byte_count], encoded_size_as_bytes[0..encoded_nsize_int_byte_count]);
+    for (0..encoded_nsize_int_byte_count) |i| {
+        encoded_size_as_bytes[i] |= 1 << 7;
+    }
+    return encoded_size;
+}
+
+pub fn decodeSize(size: encoded_nsize_int) nsize_int {
+    var mutsize = size;
+    var encoded_size_as_bytes: []u8 = asBytes(&mutsize);
+    for (0..encoded_nsize_int_byte_count) |i| {
+        encoded_size_as_bytes[i] &= ~(@as(u8, 1) << 7);
+    }
+    var decoded_size: nsize_int = undefined;
+    decode(encoded_size_as_bytes[0..encoded_nsize_int_byte_count], asBytes(&decoded_size)[0..nsize_int_byte_count]);
+    return decoded_size;
+}
+
