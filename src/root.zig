@@ -21,6 +21,9 @@ pub const CollectorState = collector.CollectorState;
 pub const CollectorError = collector.CollectorError;
 pub const Collector = collector.Collector;
 
+const test_with_upper_echoer_addr: ?[4]u8 = [4]u8 {127, 0, 0, 1};
+const test_with_upper_echoer_port: u16 = 3246;
+
 test "sizing" {
     const print = std.debug.print;
     print("Test: sizing\n", .{});
@@ -299,6 +302,54 @@ test "collector" {
         try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
         try std.testing.expect(std.mem.eql(u8, decoded[0.._collector.next_size], &data));
     }
+}
+
+test "upper echoer" {
+    const print = std.debug.print;
+
+    if (test_with_upper_echoer_addr == null) {
+        print("Skipping upper echoer.\n", .{});
+        return;
+    }
+    print("upper echoer\n", .{});
+
+    const data = "Lorem Ipsum.";
+    const expected_response = "LOREM IPSUM.";
+    var stream = try std.net.tcpConnectToAddress(std.net.Address.initIp4(test_with_upper_echoer_addr.?, test_with_upper_echoer_port));
+    defer stream.close();
+    print("connected!\n", .{});
+
+    var encoded_data: [asCollectedSize(data.len)]u8 = undefined;
+    encodeWithSize(data, &encoded_data);
+    _ = try stream.write(&encoded_data);
+
+    var decoder_buffer: [asCollectedSize(data.len)]u8 = undefined;
+    var decoder = buffered_decoder.Decoder { .buffer = &decoder_buffer };
+    var _collector = Collector { .decoder = &decoder };
+
+    var collected: nsize_int = 0;
+    while (_collector.state != CollectorState.Collected) {
+        var byte: [1]u8 = undefined;
+        if (try stream.readAtLeast(&byte, 1) == 0) {
+            try std.testing.expect(false);
+        }
+
+        try _collector.collect(byte[0]);
+
+        if (_collector.state == CollectorState.WaitingSize) {
+            print("collected size!\n", .{});
+        } else {
+            collected += 1;
+            var percent: f32 = @floatFromInt(collected);
+            percent /= @floatFromInt(asTransmissionSize(_collector.next_size) + 1);
+            print("collected data! {d:.1}%    \r", .{percent * 100});
+        }
+    }
+    print("\n", .{});
+
+    print("{s}->{s}\n", .{data, expected_response});
+    print("{s}->{s}\n", .{data, decoder_buffer[0.._collector.next_size]});
+    try std.testing.expect(std.mem.eql(u8, expected_response, decoder_buffer[0.._collector.next_size]));
 }
 
 pub fn printSlice(comptime T: type, comptime fmt: []const u8, slice: []const T) void {
