@@ -5,6 +5,9 @@ const buffered_decoder = @import("buffered_decoder.zig");
 const collector = @import("collector.zig");
 
 test "sizing" {
+    const print = std.debug.print;
+    print("Test: sizing\n", .{});
+
     const data_sizes = [_]u8 {0, 1, 2, 8, 10, 11};
     const expected_encoded_sizes = [_]u8{0, 2, 3, 10, 12, 13};
     try std.testing.expect(data_sizes.len == expected_encoded_sizes.len);
@@ -16,6 +19,9 @@ test "sizing" {
 }
 
 test "nencode" {
+    const print = std.debug.print;
+    print("Test: nencode\n", .{});
+
     {
         const data = [_]u8 {};
         var encoded: [sizing.asTransmissionSize(data.len)]u8 = undefined;
@@ -24,11 +30,13 @@ test "nencode" {
 
         nencode.encode(&data, &encoded);
         nencode.decode(&encoded, &decoded);
-        try printSlice(u8, "{d}", &data);
-        try printSlice(u8, "{d}", &encoded);
-        _ = try std.io.getStdOut().write("\n");
-        try printSlice(u8, "{d}", &decoded);
-        _ = try std.io.getStdOut().write("\n");
+
+        printSlice(u8, "{d}", &data);
+        printSlice(u8, "{d}", &encoded);
+        print("\n", .{});
+        printSlice(u8, "{d}", &decoded);
+        print("\n", .{});
+
         try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
         try std.testing.expect(std.mem.eql(u8, &decoded, &data));
     }
@@ -40,11 +48,13 @@ test "nencode" {
 
         nencode.encode(&data, &encoded);
         nencode.decode(&encoded, &decoded);
-        try printSlice(u8, "{d}", &data);
-        try printSlice(u8, "{d}", &encoded);
-        _ = try std.io.getStdOut().write("\n");
-        try printSlice(u8, "{d}", &decoded);
-        _ = try std.io.getStdOut().write("\n");
+
+        printSlice(u8, "{d}", &data);
+        printSlice(u8, "{d}", &encoded);
+        print("\n", .{});
+        printSlice(u8, "{d}", &decoded);
+        print("\n", .{});
+
         try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
         try std.testing.expect(std.mem.eql(u8, &decoded, &data));
     }
@@ -56,11 +66,13 @@ test "nencode" {
 
         nencode.encode(&data, &encoded);
         nencode.decode(&encoded, &decoded);
-        try printSlice(u8, "{d}", &data);
-        try printSlice(u8, "{d}", &encoded);
-        _ = try std.io.getStdOut().write("\n");
-        try printSlice(u8, "{d}", &decoded);
-        _ = try std.io.getStdOut().write("\n");
+
+        printSlice(u8, "{d}", &data);
+        printSlice(u8, "{d}", &encoded);
+        print("\n", .{});
+        printSlice(u8, "{d}", &decoded);
+        print("\n", .{});
+
         try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
         try std.testing.expect(std.mem.eql(u8, &decoded, &data));
     }
@@ -72,17 +84,22 @@ test "nencode" {
 
         nencode.encode(&data, &encoded);
         nencode.decode(&encoded, &decoded);
-        try printSlice(u8, "{d}", &data);
-        try printSlice(u8, "{d}", &encoded);
-        _ = try std.io.getStdOut().write("\n");
-        try printSlice(u8, "{d}", &decoded);
-        _ = try std.io.getStdOut().write("\n");
+
+        printSlice(u8, "{d}", &data);
+        printSlice(u8, "{d}", &encoded);
+        print("\n", .{});
+        printSlice(u8, "{d}", &decoded);
+        print("\n", .{});
+
         try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
         try std.testing.expect(std.mem.eql(u8, &decoded, &data));
     }
 }
 
 test "sizing encoding" {
+    const print = std.debug.print;
+    print("Test: sizing encoding\n", .{});
+
     const data_sizes = [_]sizing.nsize_int {0, 1, 2, 8, 9, 128, 129};
     const expected_encoded_sizes = [_]sizing.encoded_nsize_int {551911719040, 551911719041, 551911719042, 551911719048, 551911719049, 551911719296, 551911719297};
     for (data_sizes, expected_encoded_sizes) |data_size, expected_encoded_size| {
@@ -90,13 +107,16 @@ test "sizing encoding" {
         //_ = try std.io.getStdOut().write("\n");
         const encoded_size = nencode.encodeSize(data_size);
         const decoded_size = nencode.decodeSize(expected_encoded_size);
-        try std.io.getStdOut().writer().print("{d}, {d}\n>{d}\n", .{data_size, expected_encoded_size, decoded_size});
+        print("{d}, {d}\n>{d}\n", .{data_size, expected_encoded_size, decoded_size});
         try std.testing.expect(encoded_size == expected_encoded_size);
         try std.testing.expect(decoded_size == data_size);
     }
 }
 
 test "decoder" {
+    const print = std.debug.print;
+    print("Test: decoder\n", .{});
+
     {
         const data = [_]u8 {};
         var encoded: [sizing.asTransmissionSize(data.len)]u8 = undefined;
@@ -109,11 +129,12 @@ test "decoder" {
             decoder.next(byte, i == encoded.len - 1) catch try std.testing.expect(false);
         }
 
-        try printSlice(u8, "{d}", &data);
-        try printSlice(u8, "{d}", &encoded);
-        _ = try std.io.getStdOut().write("\n");
-        try printSlice(u8, "{d}", &decoded);
-        _ = try std.io.getStdOut().write("\n");
+        printSlice(u8, "{d}", &data);
+        printSlice(u8, "{d}", &encoded);
+        print("\n", .{});
+        printSlice(u8, "{d}", &decoded);
+        print("\n", .{});
+
         try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
         try std.testing.expect(std.mem.eql(u8, &decoded, &data));
     }
@@ -129,11 +150,12 @@ test "decoder" {
             decoder.next(byte, i == encoded.len - 1) catch try std.testing.expect(false);
         }
 
-        try printSlice(u8, "{d}", &data);
-        try printSlice(u8, "{d}", &encoded);
-        _ = try std.io.getStdOut().write("\n");
-        try printSlice(u8, "{d}", &decoded);
-        _ = try std.io.getStdOut().write("\n");
+        printSlice(u8, "{d}", &data);
+        printSlice(u8, "{d}", &encoded);
+        print("\n", .{});
+        printSlice(u8, "{d}", &decoded);
+        print("\n", .{});
+
         try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
         try std.testing.expect(std.mem.eql(u8, &decoded, &data));
     }
@@ -149,11 +171,12 @@ test "decoder" {
             decoder.next(byte, i == encoded.len - 1) catch try std.testing.expect(false);
         }
 
-        try printSlice(u8, "{d}", &data);
-        try printSlice(u8, "{d}", &encoded);
-        _ = try std.io.getStdOut().write("\n");
-        try printSlice(u8, "{d}", &decoded);
-        _ = try std.io.getStdOut().write("\n");
+        printSlice(u8, "{d}", &data);
+        printSlice(u8, "{d}", &encoded);
+        print("\n", .{});
+        printSlice(u8, "{d}", &decoded);
+        print("\n", .{});
+
         try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
         try std.testing.expect(std.mem.eql(u8, &decoded, &data));
     }
@@ -169,17 +192,21 @@ test "decoder" {
             decoder.next(byte, i == encoded.len - 1) catch try std.testing.expect(false);
         }
 
-        try printSlice(u8, "{d}", &data);
-        try printSlice(u8, "{d}", &encoded);
-        _ = try std.io.getStdOut().write("\n");
-        try printSlice(u8, "{d}", &decoded);
-        _ = try std.io.getStdOut().write("\n");
+        printSlice(u8, "{d}", &data);
+        printSlice(u8, "{d}", &encoded);
+        print("\n", .{});
+        printSlice(u8, "{d}", &decoded);
+        print("\n", .{});
+
         try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
         try std.testing.expect(std.mem.eql(u8, &decoded, &data));
     }
 }
 
 test "collector" {
+    const print = std.debug.print;
+    print("Test: collector\n", .{});
+
     {
         const data = [_]u8 {};
         var encoded: [sizing.asCollectedSize(data.len)]u8 = undefined;
@@ -196,11 +223,12 @@ test "collector" {
         }
         try std.testing.expect(_collector.state == collector.CollectorState.Collected);
 
-        try printSlice(u8, "{d}", &data);
-        try printSlice(u8, "{d}", &encoded);
-        _ = try std.io.getStdOut().write("\n");
-        try printSlice(u8, "{d}", decoded[0.._collector.next_size]);
-        _ = try std.io.getStdOut().write("\n");
+        printSlice(u8, "{d}", &data);
+        printSlice(u8, "{d}", &encoded);
+        print("\n", .{});
+        printSlice(u8, "{d}", decoded[0.._collector.next_size]);
+        print("\n", .{});
+
         try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
         try std.testing.expect(std.mem.eql(u8, decoded[0.._collector.next_size], &data));
     }
@@ -220,11 +248,12 @@ test "collector" {
         }
         try std.testing.expect(_collector.state == collector.CollectorState.Collected);
 
-        try printSlice(u8, "{d}", &data);
-        try printSlice(u8, "{d}", &encoded);
-        _ = try std.io.getStdOut().write("\n");
-        try printSlice(u8, "{d}", decoded[0.._collector.next_size]);
-        _ = try std.io.getStdOut().write("\n");
+        printSlice(u8, "{d}", &data);
+        printSlice(u8, "{d}", &encoded);
+        print("\n", .{});
+        printSlice(u8, "{d}", decoded[0.._collector.next_size]);
+        print("\n", .{});
+
         try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
         try std.testing.expect(std.mem.eql(u8, decoded[0.._collector.next_size], &data));
     }
@@ -244,25 +273,27 @@ test "collector" {
         }
         try std.testing.expect(_collector.state == collector.CollectorState.Collected);
 
-        try printSlice(u8, "{d}", &data);
-        try printSlice(u8, "{d}", &encoded);
-        _ = try std.io.getStdOut().write("\n");
-        try printSlice(u8, "{d}", decoded[0.._collector.next_size]);
-        _ = try std.io.getStdOut().write("\n");
+        printSlice(u8, "{d}", &data);
+        printSlice(u8, "{d}", &encoded);
+        print("\n", .{});
+        printSlice(u8, "{d}", decoded[0.._collector.next_size]);
+        print("\n", .{});
+
         try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
         try std.testing.expect(std.mem.eql(u8, decoded[0.._collector.next_size], &data));
     }
 }
 
-pub fn printSlice(comptime T: type, comptime fmt: []const u8, slice: []const T) !void {
-    const stdout = std.io.getStdOut().writer();
+pub fn printSlice(comptime T: type, comptime fmt: []const u8, slice: []const T) void {
+    const print = std.debug.print;
 
-    try stdout.print("[", .{});
+    print("[", .{});
+    defer print("]", .{});
+
     for (slice, 0..) |element, i| {
-        try stdout.print(fmt, .{element});
+        print(fmt, .{element});
         if (i != slice.len - 1) {
-            try stdout.print(", ", .{});
+            print(", ", .{});
         }
     }
-    try stdout.print("]", .{});
 }
