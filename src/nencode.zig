@@ -35,6 +35,9 @@ pub fn decode(encoded: []const u8, decoded: []u8) void {
 
         if (di != 0 and right_shift == 0) {
             ei += 1;
+            if (ei == encoded.len) {
+                break;
+            }
         }
 
         decoded[di] = (encoded[ei] & ~(@as(u8, 0xFF) << 7)) >> @intCast(right_shift);
