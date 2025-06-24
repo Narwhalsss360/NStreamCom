@@ -2,6 +2,7 @@ const std = @import("std");
 const sizing = @import("sizing.zig");
 const nencode = @import("nencode.zig");
 const buffered_decoder = @import("buffered_decoder.zig");
+const collector = @import("collector.zig");
 
 test "sizing" {
     const data_sizes = [_]u8 {0, 1, 2, 8, 10, 11};
@@ -175,6 +176,81 @@ test "decoder" {
         _ = try std.io.getStdOut().write("\n");
         try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
         try std.testing.expect(std.mem.eql(u8, &decoded, &data));
+    }
+}
+
+test "collector" {
+    {
+        const data = [_]u8 {};
+        var encoded: [sizing.asCollectedSize(data.len)]u8 = undefined;
+        const expected_encoded = [_]u8 {128, 128, 128, 128, 128};
+        var decoded: [sizing.asCollectedSize(data.len)]u8 = undefined;
+
+        nencode.encodeWithSize(&data, &encoded);
+
+        var decoder = buffered_decoder.Decoder { .buffer = &decoded };
+        var _collector = collector.Collector { .decoder = &decoder };
+        for (encoded) |byte| {
+            _collector.collect(byte) catch try std.testing.expect(false);
+            try std.testing.expect(!_collector.errorState());
+        }
+        try std.testing.expect(_collector.state == collector.CollectorState.Collected);
+
+        try printSlice(u8, "{d}", &data);
+        try printSlice(u8, "{d}", &encoded);
+        _ = try std.io.getStdOut().write("\n");
+        try printSlice(u8, "{d}", decoded[0.._collector.next_size]);
+        _ = try std.io.getStdOut().write("\n");
+        try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
+        try std.testing.expect(std.mem.eql(u8, decoded[0.._collector.next_size], &data));
+    }
+    {
+        const data = [_]u8 {1, 2, 3};
+        var encoded: [sizing.asCollectedSize(data.len)]u8 = undefined;
+        const expected_encoded = [_]u8 {131, 128, 128, 128, 128, 1, 4, 12, 0};
+        var decoded: [sizing.asCollectedSize(data.len)]u8 = undefined;
+
+        nencode.encodeWithSize(&data, &encoded);
+
+        var decoder = buffered_decoder.Decoder { .buffer = &decoded };
+        var _collector = collector.Collector { .decoder = &decoder };
+        for (encoded) |byte| {
+            _collector.collect(byte) catch try std.testing.expect(false);
+            try std.testing.expect(!_collector.errorState());
+        }
+        try std.testing.expect(_collector.state == collector.CollectorState.Collected);
+
+        try printSlice(u8, "{d}", &data);
+        try printSlice(u8, "{d}", &encoded);
+        _ = try std.io.getStdOut().write("\n");
+        try printSlice(u8, "{d}", decoded[0.._collector.next_size]);
+        _ = try std.io.getStdOut().write("\n");
+        try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
+        try std.testing.expect(std.mem.eql(u8, decoded[0.._collector.next_size], &data));
+    }
+    {
+        const data = [_]u8 {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        var encoded: [sizing.asCollectedSize(data.len)]u8 = undefined;
+        const expected_encoded = [_]u8 {138, 128, 128, 128, 128, 1, 4, 12, 32, 80, 64, 65, 3, 8, 18, 40, 0};
+        var decoded: [sizing.asCollectedSize(data.len)]u8 = undefined;
+
+        nencode.encodeWithSize(&data, &encoded);
+
+        var decoder = buffered_decoder.Decoder { .buffer = &decoded };
+        var _collector = collector.Collector { .decoder = &decoder };
+        for (encoded) |byte| {
+            _collector.collect(byte) catch try std.testing.expect(false);
+            try std.testing.expect(!_collector.errorState());
+        }
+        try std.testing.expect(_collector.state == collector.CollectorState.Collected);
+
+        try printSlice(u8, "{d}", &data);
+        try printSlice(u8, "{d}", &encoded);
+        _ = try std.io.getStdOut().write("\n");
+        try printSlice(u8, "{d}", decoded[0.._collector.next_size]);
+        _ = try std.io.getStdOut().write("\n");
+        try std.testing.expect(std.mem.eql(u8, &encoded, &expected_encoded));
+        try std.testing.expect(std.mem.eql(u8, decoded[0.._collector.next_size], &data));
     }
 }
 

@@ -12,6 +12,10 @@ pub fn asTransmissionSize(size: nsize_int) nsize_int {
     return (size * 8 + 7 - 1) / 7;
 }
 
+pub fn asCollectedSize(size: nsize_int) nsize_int {
+    return asTransmissionSize(size) + encoded_nsize_int_byte_count;
+}
+
 pub fn asDataSize(size: nsize_int) nsize_int {
     return size * 7 / 8;
 }

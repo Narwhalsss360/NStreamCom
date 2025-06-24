@@ -76,3 +76,12 @@ pub fn decodeSize(size: encoded_nsize_int) nsize_int {
     return decoded_size;
 }
 
+pub fn encodeWithSize(data: []const u8, encoded: []u8) void {
+    encode(data, encoded[encoded_nsize_int_byte_count..]);
+    const encoded_size: encoded_nsize_int = encodeSize(@intCast(data.len));
+    const encoded_size_as_bytes: []const u8 = asBytes(&encoded_size);
+
+    for (0..encoded_nsize_int_byte_count) |i| {
+        encoded[i] = encoded_size_as_bytes[i];
+    }
+}
