@@ -1,8 +1,25 @@
 const std = @import("std");
-const sizing = @import("sizing.zig");
-const nencode = @import("nencode.zig");
-const buffered_decoder = @import("buffered_decoder.zig");
-const collector = @import("collector.zig");
+
+pub const sizing = @import("sizing.zig");
+pub const nsize_int = sizing.nsize_int;
+pub const encoded_nsize_int = sizing.encoded_nsize_int;
+pub const asTransmissionSize = sizing.asTransmissionSize;
+pub const asCollectedSize = sizing.asCollectedSize;
+pub const asDataSize = sizing.asDataSize;
+
+pub const nencode = @import("nencode.zig");
+pub const encode = nencode.encode;
+pub const decode = nencode.decode;
+pub const encodeWithSize = nencode.encodeWithSize;
+
+pub const buffered_decoder = @import("buffered_decoder.zig");
+pub const DecoderError = buffered_decoder.DecoderError;
+pub const Decoder = buffered_decoder.Decoder;
+
+pub const collector = @import("collector.zig");
+pub const CollectorState = collector.CollectorState;
+pub const CollectorError = collector.CollectorError;
+pub const Collector = collector.Collector;
 
 test "sizing" {
     const print = std.debug.print;
