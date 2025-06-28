@@ -4,10 +4,10 @@ const buffered_decoder = @import("buffered_decoder.zig");
 
 pub const CollectorState = enum {
     Collected,
-    MissingSize,
-    MissingData,
     WaitingSize,
     WaitingData,
+    MissingSize,
+    MissingData,
     BufferFull
 };
 
@@ -28,7 +28,10 @@ pub const Collector = struct {
     }
 
     pub fn errorState(self: *const Collector) bool {
-        return self.state == CollectorState.MissingSize or self.state == CollectorState.MissingData;
+        return
+            self.state == CollectorState.MissingSize or
+            self.state == CollectorState.MissingData or
+            self.state == CollectorState.BufferFull;
     }
 
     pub fn reset(self: *Collector) void {

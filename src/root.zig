@@ -319,11 +319,11 @@ test "upper echoer" {
         std.net.Address.initIp4(test_with_upper_echoer_addr.?, test_with_upper_echoer_port)
     ) catch |err| {
         if (err == error.ConnectionRefused) {
-            std.debug.print("Skipping upper echoer test, server may not be running.", .{});
+            std.debug.print("Skipping upper echoer test, server may not be running.\n", .{});
             return;
         }
 
-        std.debug.print("An error occurred connecting to server: {!}.", .{err});
+        std.debug.print("An error occurred connecting to server: {!}.\n", .{err});
         try std.testing.expect(false);
         return;
     };
