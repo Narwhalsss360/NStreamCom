@@ -5,10 +5,10 @@ from .buffered_decoder import BufferedDecoder
 
 class CollectorStates(enum.Enum):
     Collected = 0,
-    MissingSize = 1,
-    MissingData = 2,
-    WaitingSize = 3,
-    WaitingData = 4
+    WaitingSize = 1,
+    WaitingData = 2,
+    MissingSize = 3,
+    MissingData = 4
 
 
 class Collector:
@@ -22,8 +22,12 @@ class Collector:
         return self._state
 
     @property
+    def error_state(self) -> bool:
+        return self._state in (CollectorStates.MissingSize, CollectorStates.MissingData)
+
+    @property
     def size_ready(self) -> bool:
-        return self._state == CollectorStates.WaitingData or self._state == CollectorStates.Collected
+        return self._state in (CollectorStates.WaitingData, CollectorStates.Collected)
 
     @property
     def data_ready(self) -> bool:

@@ -17,7 +17,10 @@ def main() -> None:
             collector.collect(byte)
             assert collector.state != CollectorStates.MissingData
             assert collector.state != CollectorStates.MissingSize
+            assert not (collector.size_ready and collector.error_state)
         assert collector.state == CollectorStates.Collected
+        assert not collector.error_state
+        assert collector.size_ready
         assert collector.bytearray == bstring
         collector.reset()
 
