@@ -7,10 +7,10 @@ namespace NStreamCom
         public enum States
         {
             Collected,
-            MissingSize,
-            MissingData,
             WaitingSize,
-            WaitingData
+            WaitingData,
+            MissingSize,
+            MissingData
         }
 
         public class StateChangedEventArgs(States previousState, States newState) : EventArgs
@@ -23,6 +23,8 @@ namespace NStreamCom
         public delegate void StateChangedEventHandler(object? sender, StateChangedEventArgs e);
 
         public States State { get; private set; } = States.WaitingSize;
+
+        public bool ErrorState { get => State >= States.MissingSize; }
 
         public bool SizeReady { get => State == States.WaitingData || State == States.Collected; }
 
