@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Literal
 from .sizing import DATA_BITS, as_transmission_size, as_data_size, NSIZE_SIZE, ENCODED_NSIZE_SIZE
 from .bits import as_byte
 
@@ -47,20 +47,20 @@ def decode(encoded: bytes | bytearray | list[int]) -> bytearray:
     return data
 
 
-def encode_size(data_size: int, byteorder: Optional[str] = None) -> bytearray:
-    encoded: bytearray = encode(data_size.to_bytes(NSIZE_SIZE, byteorder or 'little'))
+def encode_size(data_size: int, byteorder: Literal["little", "big"] = "little") -> bytearray:
+    encoded: bytearray = encode(data_size.to_bytes(NSIZE_SIZE, byteorder))
     for i in range(ENCODED_NSIZE_SIZE):
         encoded[i] |= 1 << 7
     return encoded
 
 
-def encode_with_size(data: bytes | bytearray | list[int], size_byteorder: Optional[str] = None) -> bytearray:
+def encode_with_size(data: bytes | bytearray | list[int], size_byteorder: Literal["little", "big"] = "little") -> bytearray:
     encoded: bytearray = encode_size(len(data), size_byteorder)
     encoded.extend(encode(data))
     return encoded
 
 
-def decode_size(encoded_size: bytearray | bytes | list[int], byteorder: Optional[str] = None) -> int:
+def decode_size(encoded_size: bytearray | bytes | list[int], byteorder: Literal["little", "big"] = "little") -> int:
     zeroed_out: bytearray = bytearray()
     for byte in encoded_size:
         zeroed_out.append(byte & ~(1 << 7))
