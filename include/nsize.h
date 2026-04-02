@@ -28,7 +28,10 @@ namespace nstreamcom {
     struct nsize {
         using nsize_int_bytes = uint8_t[ENCODED_NSIZE_SIZE];
 
-        nsize_int_bytes bytes;
+        union {
+            nsize_int as_int;
+            nsize_int_bytes bytes;
+        };
 
         nsize(const nsize_int& size = 0);
 
